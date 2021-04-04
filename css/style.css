@@ -942,7 +942,7 @@ form label {
   display: inline-block;
   width: 100px;
   height: 100px;
-  background: rgba(241, 78, 149, 0.8);
+  background: rgba(17, 48, 145, 0.8); 
   margin: 0 4px;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -1842,6 +1842,15 @@ form label {
 
 .incog-link {
   color: #fff;
+}
+
+.col-xs-2 {
+  width: 100%;
+}
+
+.video {
+  height: 100%;
+  float: center;
 }
 
 /*# sourceMappingURL=style.css.map */

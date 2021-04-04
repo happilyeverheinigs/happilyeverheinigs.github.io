@@ -3,11 +3,9 @@
 <!--
 TODO:
 Get images for stages in relationship
-Set countdown timer correctly
 Make video for intro splash
 Make form work correctly
 Add contact info + make email account
-Crop new images
 -->
 
 
@@ -22,6 +20,9 @@ Crop new images
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Laura and Kyle Heinig's Online Wedding Invitation" />
 	<meta name="author" content="David Travers" />
+
+  <link rel="icon" href="images/favicon.png" >
+
 
 	<meta property="og:title" content=""/>
 	<meta property="og:image" content=""/>
@@ -105,7 +106,8 @@ Crop new images
 		</div>
 	</nav>
 
-	<header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(images/img_bg_2.jpg);" data-stellar-background-ratio="0.5">
+	<header id="fh5co-header" class="fh5co-cover" role="banner"data-stellar-background-ratio="0.5">
+		<div class="overlay"><video class="video" autoplay muted loop playsinline src="images/teaser.mp4"></video></div>
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row">
@@ -609,7 +611,7 @@ Crop new images
 	<script src="js/main.js"></script>
 
 	<script>
-    var d = new Date(new Date().getTime() + 200 * 120 * 120 * 2000);
+    var d = new Date("2022-10-22");
 
 
     // default example
