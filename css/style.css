@@ -1857,20 +1857,30 @@ form label {
   left: 0;
 }*/
 
-.video {
+/*.video {
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
     margin: auto;
-
+	overflow:hidden;
+	display: block;
 }
 
 .video-contain {
     position: absolute;
-    left: -20%;
+	display: block;
+    left: 0%;
     height: 80%;
+}*/
+
+.video {
+	height: 100%;
+}
+
+.overlay {
+	overflow: hidden;
 }
 
 /*# sourceMappingURL=style.css.map */
