@@ -1848,9 +1848,29 @@ form label {
   width: 100%;
 }
 
-.video {
+/*.video {
   height: 100%;
-  float: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}*/
+
+.video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+
+}
+
+.video-contain {
+    position: absolute;
+    left: -20%;
+    height: 80%;
 }
 
 /*# sourceMappingURL=style.css.map */
