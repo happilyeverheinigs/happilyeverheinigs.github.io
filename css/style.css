@@ -1275,7 +1275,7 @@ form label {
 }
 
 .feature-left {
-  float: left;
+  float: center;
   width: 100%;
   margin-bottom: 30px;
   position: relative;
@@ -1885,6 +1885,10 @@ form label {
 
 .contacts {
   text-align: center;
+}
+
+.row {
+	text-align: center;
 }
 
 /*# sourceMappingURL=style.css.map */
