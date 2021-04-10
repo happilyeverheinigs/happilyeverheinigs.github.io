@@ -1,10 +1,22 @@
 <body>
-<div style="
-position: absolute;
+<section id="home">
+     <div class="video_shader"></div>
+        <div class="video_contain">
+            <video autoplay muted loop playsinline src="images/teaser.mp4"></video>
+        </div>
+</section>
+</body>
+<style>
+.video_contain {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+}
 
-">
-	<video style="
-position: absolute;
+video {
+    position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
@@ -12,6 +24,12 @@ position: absolute;
     margin: auto;
     min-height: 50%;
     min-width: 50%;
-	" autoplay muted loop playsinline src="images/teaser.mp4"></video>
-</div>
-</body>
+}
+
+#home {
+width: 100vw;
+height: 100vh;
+display:block;
+position: relative;
+}
+</style>
