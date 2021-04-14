@@ -1882,6 +1882,9 @@ form label {
 
 .overlay {
 	overflow: hidden;
+}
+
+.video-contain {
 	display: flex;
 	justify-content: center;
 }
