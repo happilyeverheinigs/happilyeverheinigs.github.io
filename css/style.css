@@ -1877,10 +1877,13 @@ form label {
 
 .video {
 	height: 100%;
+	align-self: center;
 }
 
 .overlay {
 	overflow: hidden;
+	display: flex;
+	justify-content: center;
 }
 
 .contacts {
