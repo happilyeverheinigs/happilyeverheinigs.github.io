@@ -1312,11 +1312,11 @@ form label {
 }
 .feature-left .feature-copy {
   float: left;
-  width: 80%;
+  width: 100%;
 }
 @media screen and (max-width: 768px) {
   .feature-left .feature-copy {
-    width: 70%;
+    width: 100%;
     float: left;
   }
 }
@@ -1888,6 +1888,10 @@ form label {
 
 .contacts {
   text-align: center;
+}
+
+.feature-copy {
+	width: 100%
 }
 
 /*# sourceMappingURL=style.css.map */
