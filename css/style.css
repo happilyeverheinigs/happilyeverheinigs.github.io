@@ -1875,19 +1875,32 @@ form label {
     height: 80%;
 }*/
 
-.video {
-	height: 100%;
-	align-self: center;
-}
-
 .overlay {
 	overflow: hidden;
+}
+
+.video {
+  height: 100%;
+  align-self: center;
 }
 
 .video-contain {
 	display: flex;
 	justify-content: center;
+  flex-direction: row;
 }
+
+
+/*.video{ 
+  height:100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.video-contain {
+  position: relative;
+}*/
 
 .contacts {
   text-align: center;
