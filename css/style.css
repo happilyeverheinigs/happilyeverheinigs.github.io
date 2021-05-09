@@ -324,6 +324,7 @@ h1, h2, h3, h4, h5, h6, figure {
 .fh5co-cover .display-tc {
   height: 85vh;
   display: table;
+  padding-top: 5vh;
   width: 100%;
 }
 @media screen and (max-width: 768px) {
@@ -1017,7 +1018,7 @@ form label {
 }
 
 .fh5co-section-gray {
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .couple-wrap {
