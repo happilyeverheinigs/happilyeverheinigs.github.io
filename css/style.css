@@ -296,7 +296,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 .fh5co-cover {
-  height: 75vh;
+  height: 85vh;
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
@@ -322,7 +322,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .fh5co-cover .display-t,
 .fh5co-cover .display-tc {
-  height: 75vh;
+  height: 85vh;
   display: table;
   width: 100%;
 }
@@ -1880,7 +1880,7 @@ form label {
 }
 
 .video {
-  height: 75vh;
+  height: 85vh;
   object-fit: cover;
   width: 100%;
 }
