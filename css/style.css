@@ -5,6 +5,11 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'heinig';
+  src: url("../fonts/EBGaramond-Regular.ttf");
+  src: url("../fonts/Brotherhood_Script.ttf");
+}
 /* =======================================================
 *
 * 	Template Style 
@@ -103,7 +108,8 @@ h1, h2, h3, h4, h5, h6, figure {
   margin: 0;
   padding: 0;
   line-height: 40px;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'heinig', 'Brotherhood Script', normal;
+  -webkit-text-stroke-width: 1px;
 }
 .fh5co-nav a {
   padding: 5px 10px;
@@ -845,7 +851,8 @@ form label {
   margin-bottom: 0px;
   font-size: 100px;
   line-height: 1.5;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'heinig', 'Brotherhood Script', normal;
+  -webkit-text-stroke-width: 1px;
 }
 @media screen and (max-width: 768px) {
   #fh5co-header .display-tc h1,
@@ -1066,9 +1073,10 @@ form label {
   }
 }
 .couple-half h3 {
-  font-family: 'Great Vibes', cursive;
+  font-family: 'heinig', 'Brotherhood Script', normal;
+  -webkit-text-stroke-width: 1px;
   color: #113091;
-  font-size: 30px;
+  font-size: 40px;
 }
 .couple-half .groom, .couple-half .bride {
   float: left;
@@ -1183,7 +1191,8 @@ form label {
   line-height: 1.5;
   font-weight: 400;
   color: #113091;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'heinig', 'Brotherhood Script', normal;
+  -webkit-text-stroke-width: 1px;
 }
 @media screen and (max-width: 768px) {
   .fh5co-heading h2 {
@@ -1912,4 +1921,16 @@ form label {
 	width: 100%
 }
 
+.amzn {
+  color: #7baae8;
+  font-size: 30px;
+  padding: 5px;
+}
+.amzn:hover{
+  color: #7baae8;
+  background-color: rgba(0,0,0,0.1);
+}
+.h1amzn{
+  text-align: center;
+}
 /*# sourceMappingURL=style.css.map */
