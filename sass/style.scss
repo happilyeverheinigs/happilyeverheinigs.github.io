@@ -407,7 +407,7 @@ h1, h2, h3, h4, h5, h6, figure {
 	}
 	.display-t,
 	.display-tc {
-		height: 85vh;
+		height: 0px;
 		display: table;
 		width: 100%;
 		@media screen and (max-width: $screen-sm) {
