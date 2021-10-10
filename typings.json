@@ -1,0 +1,6 @@
+{
+    "resolution": "typings/",
+    "globalDependencies": {
+        "javascript": "github:JMPerez/spotify-web-api-js/src/typings/"
+    }
+}

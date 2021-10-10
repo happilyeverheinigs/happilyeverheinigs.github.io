@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Happily Ever Heinigs - Song Submission</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Laura and Kyle Heinig's Online Song Submission" />
+	<meta name="author" content="David Travers" />
+
+    <link rel="icon" href="images/favicon.png" >
+    
+    <meta property="og:title" content="Happily Ever Heinigs"/>
+    <meta property="og:image" content="images/banner-splash.png"/>
+    <meta property="og:url" content="https://happilyeverheinigs.github.io/"/>
+    <meta property="og:site_name" content="Happily Ever Heinigs"/>
+    <meta property="og:description" content="Laura and Kyle Heinig's Online Wedding Invitation"/>
+    <meta name="twitter:card" content="summary_large_image" />	
+    <meta name="twitter:title" content="Happily Ever Heinigs" />
+    <meta name="twitter:image" content="images/banner-splash.png" />
+    <meta name="twitter:url" content="https://happilyeverheinigs.github.io/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/spotify-web-api.js"></script>
+</head>
+
+<body>
+    <h1>Add to the Playlist</h1>
+    <form name="searchbox">
+        Search for your song:<br>
+        <input type="text" placeholder="Spotify query" name="searchinput" value="">
+        <br><br>
+        
+    </form>
+    <button onclick="searchSong()">Search</button>
+</body>
+
+<style>
+    body {
+        text-align: center
+    }
+    input {
+        width:75%;
+        text-align: center;
+        /* resize: vertical; */
+        padding:15px;
+        border-radius:15px;
+        border:0;
+        box-shadow:4px 4px 10px rgba(0,0,0,0.15);
+        height:10px;
+    }
+    button {
+
+    /* remove default behavior */
+    appearance:none;
+    -webkit-appearance:none;
+
+    /* usual styles */
+    padding:10px;
+    border:none;
+    background-color:#113091;
+    color:#fff;
+    font-weight:600;
+    border-radius:5px;
+    width:100x;
+
+    }
+    @font-face {
+        font-family: 'heinig';
+        src: url("/fonts/EBGaramond-Regular.ttf"), 'EB Garamond';
+        src: url("/fonts/Brotherhood_Script.ttf"), 'Brotherhood Script'
+    }
+    h1 {
+        font-family: 'heinig', 'Brotherhood Script', normal;
+        margin-bottom: 0px;
+        color: #113091;
+        font-size: 75px;
+        line-height: 1.5;
+        -webkit-text-stroke-width: 1px;
+    }
+</style>
+
+<script>
+function searchSong(){
+const spotifyApi = new SpotifyWebApi();
+
+//https://accounts.spotify.com/en/authorize?response_type=token&redirect_uri=https:%2F%2Fdeveloper.spotify.com%2Fcallback&client_id=774b29d4f13844c495f206cafdad9c86&scope=playlist-modify-private&state=qrdcro
+spotifyApi.setAccessToken('BQCCwudsf9ZxvPokuqq7PdhnJS2HegHx2sh0pooMktdfM4pPWn9bWtXil52Jkd0Lweb7jhdxAGjTklZPSERkQfa9qmJK4OBA5Pt_5rGHUrU_ZXOnOjXgpyHngM9_y790hv6kll0qWFCfuAq_dQKV1JNk1W3tcFecyLXRrUwRZN8');
+
+class nSong {
+    constructor(track) {
+        if (track != null) {
+            this.name = track['name'];
+            this.id = track['id'];
+            this.artists = '';
+            for (var i = 0; i < track['artists'].length; i++) {
+                var artist = track['artists'][i];
+                if (i != 0) {
+                    this.artists += ', '
+                }
+                this.artists += artist['name'];
+            }
+            this.art = track['album']['images'][1]['url']
+            this.audio = track['preview_url']
+            this.uri = track['uri']
+        } else {
+            this.name = 'ERROR'
+            this.id = 'ERROR'
+            this.artists = 'ERROR'
+        }
+        console.log(`Created ${this.name} - ${this.artists} (${this.id})`)
+    }
+}
+
+var query = document.getElementsByName("searchinput")[0].value
+console.log(query)
+
+var songs = []
+
+spotifyApi.search(query, ['track'], {
+    market: "from_token"
+}, (err, result) => {
+    if (err == null) {
+        for (var i = 0; i < result['tracks']['items'].length; i++) {
+            var track = result['tracks']['items'][i];
+            songs.push(new nSong(track));
+        }
+
+        spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O', songs[0]['uri'])
+    } else {
+        //  TODO: HANDLE ERROR
+    }
+})
+}
+</script>
