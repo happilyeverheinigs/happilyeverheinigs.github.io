@@ -30,12 +30,13 @@
     <h1>Add to the Playlist</h1>
     <form name="searchbox">
         Search for your song:<br>
-        <input type="text" placeholder="Spotify query" name="searchinput" value="">
+        <input type="text" placeholder="Spotify query" name="query" value="">
         <br><br>
         <input type="submit" style="display: none" />        
     </form>
     <button onclick="main()">Search</button>
-    <br><br>
+    <br>
+    <p style="text-align: center; color:#228322; size: larger;" id="successMessage">⠀</p>
 
     <table>
     <tr class="albumArts">
@@ -142,11 +143,22 @@
 </style>
 
 <script>
+/*
+TODO:
+
+Check for duplicate songs
+Dont tell the user it was successful if it wasnt
+Get refresh token
+*/
 var songs = []
 const spotifyApi = new SpotifyWebApi();
 
 //https://developer.spotify.com/console/get-search-item/
-spotifyApi.setAccessToken('BQCy92nXQm2EKid1HS50cTWJbaljfu-lBZ7h6yPtlSKEN0HfNtR8DjeGXVn3Jk89kkE8q7DPUBYs1__7t9JeJN7BRE0UjJBVcXyEC_0GgsV3-T-I8IQEirw6nsxm6Grb_r62pWwS8ejw5kzFLrvAPBfMKF3uaQpd5kZ3u7HgeHVVmqXR_GP2XuJZJMF-nIkl');
+spotifyApi.setAccessToken('BQDAyyb9uQQG5eIzGzkQkZxyB20gx4RpcApJdebaNu5WkWoKokbFqfSKOrOvsxaVW9cMfO4v0cgUw1ZCszGlmHV6KXnxilfak9BMvhJV0osqSkZ1KvXRZZmbeLO4MWUmtIjl7hUMz7bIbRKkYmJjMUCY40tjRCG4QjcaITIkajBWcV0m5VjCunN269b8HqYY');
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const urlQuery = urlParams.get('query');
 
 class nSong {
     constructor(track) {
@@ -176,13 +188,18 @@ class nSong {
 
 function main() {
     searchSong()
-    setTimeout(() => updateTable(songs), 500);
+    setTimeout(() => updateTable(), 500);
 }
 
 function searchSong(){
     songs = []
-    var query = document.getElementsByName("searchinput")[0].value
+
+    var query = document.getElementsByName("query")[0].value
     console.log("Search query: " + query)
+    if (query == '') {
+        query = urlQuery
+        console.log("Got URL query: " + query)
+    }
 
     spotifyApi.search(query, ['track'], {
         market: "from_token",
@@ -200,7 +217,7 @@ function searchSong(){
 
 }
 
-function updateTable(songs) {
+function updateTable() {
     document.getElementById("art0").innerHTML = '<img src="'+songs[0].art+'">'
     document.getElementById("name0").innerHTML = songs[0].name
     document.getElementById("artist0").innerHTML = songs[0].artists
@@ -220,7 +237,15 @@ function updateTable(songs) {
 function selectSong(num){
     spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O',[songs[num].uri])
     console.log("Added song: " + songs[num].name)
+    document.getElementById("successMessage").innerHTML = "Your song has been successfully added!"
+    
 
-    // success!
+    setTimeout(() => {
+        document.getElementById("successMessage").innerHTML = "⠀"
+    }, 8000);
+}
+
+if (urlQuery != ''){
+    main()
 }
 </script>
