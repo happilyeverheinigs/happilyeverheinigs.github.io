@@ -154,7 +154,7 @@ var songs = []
 const spotifyApi = new SpotifyWebApi();
 
 //https://developer.spotify.com/console/get-search-item/
-spotifyApi.setAccessToken('BQDAyyb9uQQG5eIzGzkQkZxyB20gx4RpcApJdebaNu5WkWoKokbFqfSKOrOvsxaVW9cMfO4v0cgUw1ZCszGlmHV6KXnxilfak9BMvhJV0osqSkZ1KvXRZZmbeLO4MWUmtIjl7hUMz7bIbRKkYmJjMUCY40tjRCG4QjcaITIkajBWcV0m5VjCunN269b8HqYY');
+spotifyApi.setAccessToken('BQDbfS3cAQsIlz8sFfQBe6GFhg8qRIDIpEQ7IaItCEh_xPiX9EMAJNrYP7WKKkW47cx5Cy-BcygefOWvxK-Tqtn51nqWXbn4jTvnwwgWu8qSeP06qviD2kOyKdZcVX-QayQi4pUM24IOVySI5Vp2QTA5fQgIOM6xA7mswYb86TgYJhChY0r8bgwPVwEEdEQu');
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -245,7 +245,7 @@ function selectSong(num){
     }, 8000);
 }
 
-if (urlQuery != ''){
+if (urlQuery != '' && urlQuery != null) {
     main()
 }
 </script>
