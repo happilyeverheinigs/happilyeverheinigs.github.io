@@ -34,7 +34,44 @@
         <br><br>
         
     </form>
-    <button onclick="searchSong()">Search</button>
+    <button onclick="main()">Search</button>
+    <br><br>
+
+    <table>
+    <tr class="albumArts">
+        <th id="art0"><img src="images/placeholder.png"></th>
+        <th></th>
+        <th id="art1"><img src="images/placeholder.png"></th>
+        <th></th>
+        <th id="art2"><img src="images/placeholder.png"></th>
+    </tr>
+    <tr class="tableNames">
+        <td>
+            <h2 id="name0">Name</h2>
+            <h3 id="artist0">Artist</h3>
+            <h4 id="album0">[Album]</h4>
+        </td>
+        <td></td>
+        <td>
+            <h2 id="name1">Name</h2>
+            <h3 id="artist1">Artist</h3>
+            <h4 id="album1">[Album]</h4>
+        </td>
+        <td></td>
+        <td>
+            <h2 id="name2">Name</h2>
+            <h3 id="artist2">Artist</h3>
+            <h4 id="album2">[Album]</h4>
+        </td>
+    </tr>
+    <tr class="tableButtons">
+        <td><button onclick="selectSong(0)">+</button></td>
+        <th></th>
+        <td><button onclick="selectSong(1)">+</button></td>
+        <th></th>
+        <td><button onclick="selectSong(2)">+</button></td>
+    </tr>
+</table>
 </body>
 
 <style>
@@ -52,20 +89,18 @@
         height:10px;
     }
     button {
+        /* remove default behavior */
+        appearance:none;
+        -webkit-appearance:none;
 
-    /* remove default behavior */
-    appearance:none;
-    -webkit-appearance:none;
-
-    /* usual styles */
-    padding:10px;
-    border:none;
-    background-color:#113091;
-    color:#fff;
-    font-weight:600;
-    border-radius:5px;
-    width:100x;
-
+        /* usual styles */
+        padding:10px;
+        border:none;
+        background-color:#113091;
+        color:#fff;
+        font-weight:600;
+        border-radius:5px;
+        width:100x;
     }
     @font-face {
         font-family: 'heinig';
@@ -80,58 +115,111 @@
         line-height: 1.5;
         -webkit-text-stroke-width: 1px;
     }
+    h2 {
+        font-size: larger;
+        color: #646464;
+        margin-bottom: 0;
+    }
+    h3 {
+        font-size: medium;
+        color: #646464;
+        margin-bottom: 0;
+    }
+    h4 {
+        font-size: small;
+        color: #828282;
+    }
+    table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    img {
+        width:200px;
+        height:200px;
+        padding-left:20px;
+        padding-right:20px;
+    }
 </style>
 
 <script>
-function searchSong(){
-const spotifyApi = new SpotifyWebApi();
-
-//https://accounts.spotify.com/en/authorize?response_type=token&redirect_uri=https:%2F%2Fdeveloper.spotify.com%2Fcallback&client_id=774b29d4f13844c495f206cafdad9c86&scope=playlist-modify-private&state=qrdcro
-spotifyApi.setAccessToken('BQCCwudsf9ZxvPokuqq7PdhnJS2HegHx2sh0pooMktdfM4pPWn9bWtXil52Jkd0Lweb7jhdxAGjTklZPSERkQfa9qmJK4OBA5Pt_5rGHUrU_ZXOnOjXgpyHngM9_y790hv6kll0qWFCfuAq_dQKV1JNk1W3tcFecyLXRrUwRZN8');
-
-class nSong {
-    constructor(track) {
-        if (track != null) {
-            this.name = track['name'];
-            this.id = track['id'];
-            this.artists = '';
-            for (var i = 0; i < track['artists'].length; i++) {
-                var artist = track['artists'][i];
-                if (i != 0) {
-                    this.artists += ', '
-                }
-                this.artists += artist['name'];
-            }
-            this.art = track['album']['images'][1]['url']
-            this.audio = track['preview_url']
-            this.uri = track['uri']
-        } else {
-            this.name = 'ERROR'
-            this.id = 'ERROR'
-            this.artists = 'ERROR'
-        }
-        console.log(`Created ${this.name} - ${this.artists} (${this.id})`)
-    }
-}
-
-var query = document.getElementsByName("searchinput")[0].value
-console.log(query)
-
 var songs = []
 
-spotifyApi.search(query, ['track'], {
-    market: "from_token"
-}, (err, result) => {
-    if (err == null) {
-        for (var i = 0; i < result['tracks']['items'].length; i++) {
-            var track = result['tracks']['items'][i];
-            songs.push(new nSong(track));
-        }
+function main() {
+    searchSong()
+    updateTable(songs)
+}
 
-        spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O', songs[0]['uri'])
-    } else {
-        //  TODO: HANDLE ERROR
+function searchSong(){
+    const spotifyApi = new SpotifyWebApi();
+
+    //https://accounts.spotify.com/en/authorize?response_type=token&redirect_uri=https:%2F%2Fdeveloper.spotify.com%2Fcallback&client_id=774b29d4f13844c495f206cafdad9c86&scope=playlist-modify-private&state=qrdcro
+    spotifyApi.setAccessToken('BQBKOtZoBNBwY2NNGyVTfO93ppGjADx8KB-wUlOrljUD9oOR-V7bwZsKcT_PhEoIwztf5yiCVqxU20Gw2sChB7baPXliJWzLL3hp-mydDerueytnsY_ntkELDv9AjJzx7ropBbVxsfaGBE9Tb7krnTw3MGRhB6rpNo55LYdMO-fasZaH0Xu8KucBpUX0m0UT');
+
+    class nSong {
+        constructor(track) {
+            if (track != null) {
+                this.name = track['name'];
+                this.id = track['id'];
+                this.artists = '';
+                for (var i = 0; i < track['artists'].length; i++) {
+                    var artist = track['artists'][i];
+                    if (i != 0) {
+                        this.artists += ', '
+                    }
+                    this.artists += artist['name'];
+                }
+                this.art = track['album']['images'][1]['url']
+                this.audio = track['preview_url']
+                this.uri = track['uri']
+            } else {
+                this.name = 'ERROR'
+                this.id = 'ERROR'
+                this.artists = 'ERROR'
+            }
+            console.log(`Created ${this.name} - ${this.artists} (${this.id})`)
+        }
     }
-})
+
+    var query = document.getElementsByName("searchinput")[0].value
+    console.log(query)
+
+    spotifyApi.search(query, ['track'], {
+        market: "from_token",
+        limit: 3
+    }, (err, result) => {
+        if (err == null) {
+            for (var i = 0; i < result['tracks']['items'].length; i++) {
+                var track = result['tracks']['items'][i];
+                songs.push(new nSong(track));
+            }
+        } else {
+            //  TODO: HANDLE ERROR
+        }
+    })
+
+    console.log(songs)
+    console.log(songs[0].art)
+
+    updateTable(songs)
+}
+
+function updateTable(songs) {
+    document.getElementById("name0").innerHTML = songs[0].name
+    document.getElementById("artist0").innerHTML = songs[0].artists
+    document.getElementById("album0").innerHTML = songs[0].album
+
+    document.getElementById("name1").innerHTML = songs[1].name
+    document.getElementById("artist1").innerHTML = songs[1].artists
+    document.getElementById("album1").innerHTML = songs[1].album
+
+    document.getElementById("name2").innerHTML = songs[2].name
+    document.getElementById("artist2").innerHTML = songs[2].artists
+    document.getElementById("album2").innerHTML = songs[2].album
+}
+
+function selectSong(num){
+    spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O',[songs[num]['uri']])
+
+    // success!
 }
 </script>
