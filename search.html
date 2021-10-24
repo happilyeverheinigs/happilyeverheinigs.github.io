@@ -32,7 +32,7 @@
         Search for your song:<br>
         <input type="text" placeholder="Spotify query" name="searchinput" value="">
         <br><br>
-        
+        <input type="submit" style="display: none" />        
     </form>
     <button onclick="main()">Search</button>
     <br><br>
@@ -117,7 +117,7 @@
     }
     h2 {
         font-size: larger;
-        color: #646464;
+        color: #494949;
         margin-bottom: 0;
     }
     h3 {
@@ -143,45 +143,46 @@
 
 <script>
 var songs = []
+const spotifyApi = new SpotifyWebApi();
+
+//https://developer.spotify.com/console/get-search-item/
+spotifyApi.setAccessToken('BQCy92nXQm2EKid1HS50cTWJbaljfu-lBZ7h6yPtlSKEN0HfNtR8DjeGXVn3Jk89kkE8q7DPUBYs1__7t9JeJN7BRE0UjJBVcXyEC_0GgsV3-T-I8IQEirw6nsxm6Grb_r62pWwS8ejw5kzFLrvAPBfMKF3uaQpd5kZ3u7HgeHVVmqXR_GP2XuJZJMF-nIkl');
+
+class nSong {
+    constructor(track) {
+        if (track != null) {
+            this.name = track['name'];
+            this.id = track['id'];
+            this.artists = '';
+            for (var i = 0; i < track['artists'].length; i++) {
+                var artist = track['artists'][i];
+                if (i != 0) {
+                    this.artists += ', '
+                }
+                this.artists += artist['name'];
+            }
+            this.art = track['album']['images'][1]['url']
+            this.audio = track['preview_url']
+            this.uri = track['uri']
+            this.album = track['album']['name']
+        } else {
+            this.name = 'ERROR'
+            this.id = 'ERROR'
+            this.artists = 'ERROR'
+        }
+        console.log(`Created ${this.name} - ${this.artists} (${this.id})`)
+    }
+}
 
 function main() {
     searchSong()
-    updateTable(songs)
+    setTimeout(() => updateTable(songs), 500);
 }
 
 function searchSong(){
-    const spotifyApi = new SpotifyWebApi();
-
-    //https://accounts.spotify.com/en/authorize?response_type=token&redirect_uri=https:%2F%2Fdeveloper.spotify.com%2Fcallback&client_id=774b29d4f13844c495f206cafdad9c86&scope=playlist-modify-private&state=qrdcro
-    spotifyApi.setAccessToken('BQBKOtZoBNBwY2NNGyVTfO93ppGjADx8KB-wUlOrljUD9oOR-V7bwZsKcT_PhEoIwztf5yiCVqxU20Gw2sChB7baPXliJWzLL3hp-mydDerueytnsY_ntkELDv9AjJzx7ropBbVxsfaGBE9Tb7krnTw3MGRhB6rpNo55LYdMO-fasZaH0Xu8KucBpUX0m0UT');
-
-    class nSong {
-        constructor(track) {
-            if (track != null) {
-                this.name = track['name'];
-                this.id = track['id'];
-                this.artists = '';
-                for (var i = 0; i < track['artists'].length; i++) {
-                    var artist = track['artists'][i];
-                    if (i != 0) {
-                        this.artists += ', '
-                    }
-                    this.artists += artist['name'];
-                }
-                this.art = track['album']['images'][1]['url']
-                this.audio = track['preview_url']
-                this.uri = track['uri']
-            } else {
-                this.name = 'ERROR'
-                this.id = 'ERROR'
-                this.artists = 'ERROR'
-            }
-            console.log(`Created ${this.name} - ${this.artists} (${this.id})`)
-        }
-    }
-
+    songs = []
     var query = document.getElementsByName("searchinput")[0].value
-    console.log(query)
+    console.log("Search query: " + query)
 
     spotifyApi.search(query, ['track'], {
         market: "from_token",
@@ -197,28 +198,28 @@ function searchSong(){
         }
     })
 
-    console.log(songs)
-    console.log(songs[0].art)
-
-    updateTable(songs)
 }
 
 function updateTable(songs) {
+    document.getElementById("art0").innerHTML = '<img src="'+songs[0].art+'">'
     document.getElementById("name0").innerHTML = songs[0].name
     document.getElementById("artist0").innerHTML = songs[0].artists
     document.getElementById("album0").innerHTML = songs[0].album
 
+    document.getElementById("art1").innerHTML = '<img src="'+songs[1].art+'">'
     document.getElementById("name1").innerHTML = songs[1].name
     document.getElementById("artist1").innerHTML = songs[1].artists
     document.getElementById("album1").innerHTML = songs[1].album
 
+    document.getElementById("art2").innerHTML = '<img src="'+songs[2].art+'">'
     document.getElementById("name2").innerHTML = songs[2].name
     document.getElementById("artist2").innerHTML = songs[2].artists
     document.getElementById("album2").innerHTML = songs[2].album
 }
 
 function selectSong(num){
-    spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O',[songs[num]['uri']])
+    spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O',[songs[num].uri])
+    console.log("Added song: " + songs[num].name)
 
     // success!
 }
