@@ -30,7 +30,7 @@
     <h1>Add to the Playlist</h1>
     <form name="searchbox">
         Search for your song:<br>
-        <input type="text" placeholder="Spotify query" name="query" value="">
+        <div id="searchdiv"><input type="text" id="searchfield" placeholder="Search for a song on spotify..." name="query" value=""></div>
         <br><br>
         <input type="submit" style="display: none" />        
     </form>
@@ -246,6 +246,7 @@ function selectSong(num){
 }
 
 if (urlQuery != '' && urlQuery != null) {
+    document.getElementById("searchdiv").innerHTML = "<input type=\"text\" id=\"searchfield\" placeholder=\"Search for a song on spotify...\" name=\"query\" value=\""+urlQuery+"\">"
     main()
 }
 </script>

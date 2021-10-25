@@ -577,12 +577,8 @@ Make sure descriptions are good
 								<input type="email" class="form-control" id="email" placeholder="Email">
 							</div>
 						</div>-->
-						<div class="col-md-4 col-sm-4">
-							<div class="form-group">
-								<label for="address" class="sr-only">Search for your song...</label>
-								<input type="address" class="form-control" id="address" placeholder="Search for your song...">
-							</div>
-						</div>
+						<input type="text" class="form-control" name="query" id="searchfield" placeholder="Search for your song...">
+						<br><p style="padding-bottom:20px" ></p>
 						<div class="col-md-4 col-sm-4">
 							<button type="submit" class="btn btn-default btn-block">Search</button>
 						</div>
@@ -659,6 +655,17 @@ Make sure descriptions are good
         day: d.getDate(),
         enableUtc: false
     });
+</script>
+
+<script>
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const urlQuery = urlParams.get('query');
+
+if (urlQuery != '' && urlQuery != null) {
+    window.open("/search?query=" + urlQuery,"_parent")
+}
 </script>
 
 
