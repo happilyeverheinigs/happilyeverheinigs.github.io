@@ -24,6 +24,7 @@
 	
     <link rel="stylesheet" href="css/style.css">
     <script src="js/spotify-web-api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17-beta.0/vue.js"></script>
 </head>
 
 <body>
@@ -38,41 +39,30 @@
     <br>
     <p style="text-align: center; color:#228322; size: larger;" id="successMessage">⠀</p>
 
-    <table>
-    <tr class="albumArts">
-        <th id="art0"><img src="images/placeholder.png"></th>
-        <th></th>
-        <th id="art1"><img src="images/placeholder.png"></th>
-        <th></th>
-        <th id="art2"><img src="images/placeholder.png"></th>
-    </tr>
-    <tr class="tableNames">
-        <td>
-            <h2 id="name0">Name</h2>
-            <h3 id="artist0">Artist</h3>
-            <h4 id="album0">[Album]</h4>
-        </td>
-        <td></td>
-        <td>
-            <h2 id="name1">Name</h2>
-            <h3 id="artist1">Artist</h3>
-            <h4 id="album1">[Album]</h4>
-        </td>
-        <td></td>
-        <td>
-            <h2 id="name2">Name</h2>
-            <h3 id="artist2">Artist</h3>
-            <h4 id="album2">[Album]</h4>
-        </td>
-    </tr>
-    <tr class="tableButtons">
-        <td><button onclick="selectSong(0)">+</button></td>
-        <th></th>
-        <td><button onclick="selectSong(1)">+</button></td>
-        <th></th>
-        <td><button onclick="selectSong(2)">+</button></td>
-    </tr>
-</table>
+    <div class="songBlock">
+        <div id="art0"><img src="images/placeholder.png"></div>
+        <h2 id="name0">Name</h2>
+        <h3 id="artist0">Artist</h3>
+        <h4 id="album0">[Album]</h4>
+        <button onclick="selectSong(0)">+</button>
+        <br><br>
+    </div>
+    <div class="songBlock">
+        <div id="art1"><img src="images/placeholder.png"></div>
+        <h2 id="name1">Name</h2>
+        <h3 id="artist1">Artist</h3>
+        <h4 id="album1">[Album]</h4>
+        <button onclick="selectSong(0)">+</button>
+        <br><br>
+    </div>
+    <div class="songBlock">
+        <div id="art2"><img src="images/placeholder.png"></div>
+        <h2 id="name2">Name</h2>
+        <h3 id="artist2">Artist</h3>
+        <h4 id="album2">[Album]</h4>
+        <button onclick="selectSong(0)">+</button>
+        <br><br>
+    </div>
 </body>
 
 <style>
@@ -140,6 +130,9 @@
         padding-left:20px;
         padding-right:20px;
     }
+    div.songBlock {
+        display: inline-block;
+    }
 </style>
 
 <script>
@@ -155,36 +148,80 @@ var songs = []
 const spotifyApi = new SpotifyWebApi();
 
 //https://developer.spotify.com/console/get-search-item/
-spotifyApi.setAccessToken('BQDbfS3cAQsIlz8sFfQBe6GFhg8qRIDIpEQ7IaItCEh_xPiX9EMAJNrYP7WKKkW47cx5Cy-BcygefOWvxK-Tqtn51nqWXbn4jTvnwwgWu8qSeP06qviD2kOyKdZcVX-QayQi4pUM24IOVySI5Vp2QTA5fQgIOM6xA7mswYb86TgYJhChY0r8bgwPVwEEdEQu');
+spotifyApi.setAccessToken('BQBi0LKObDaSDtlitxrAm5XLDb5lWrNxGbz9Y4-gVYSwySgd6JqFqwko7LMkx4aO1YUyIP_9O1JBMJJlzKe-IPZSYl0HWjZmk8JFtLXXeOW-QfJwVAN1eXVG2Cm8Lgc1YhiAqJJQg7Nh7zR1PB0dYtT4pTd0-73doKmPI0d0tu_b1JkscMrVFb_b1O8Y3dvW');
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const urlQuery = urlParams.get('query');
 
-function getAcessToken(refresh_token) {
-    app.get('/refresh_token', function(req, res) {
+// function getAcessToken(refresh_token) {
+//     app.get('/refresh_token', function(req, res) {
 
-    // requesting access token from refresh token
-    var authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-    form: {
-        grant_type: 'refresh_token',
-        refresh_token: refresh_token
-    },
-    json: true
-    };
+//     // requesting access token from refresh token
+//     var authOptions = {
+//     url: 'https://accounts.spotify.com/api/token',
+//     headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+//     form: {
+//         grant_type: 'refresh_token',
+//         refresh_token: refresh_token
+//     },
+//     json: true
+//     };
 
-    request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-        var access_token = body.access_token;
-        res.send({
-        'access_token': access_token
-        });
+//     request.post(authOptions, function(error, response, body) {
+//     if (!error && response.statusCode === 200) {
+//         var access_token = body.access_token;
+//         res.send({
+//         'access_token': access_token
+//         });
+//     }
+//     });
+//     });
+// }
+
+const app = new Vue({
+  el: '#app',
+  data() {
+    return {
+      client_id: 'ced3d123d96e4850aae3b17871d73f64',
+      scopes: '',
+      redirect_uri: 'https://happilyeverheinigs.com/search?',
+      me: null
     }
-    });
-    });
-}
+  },
+  methods: {
+    login() {
+      let popup = window.open(`https://accounts.spotify.com/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=${this.redirect_uri}&scope=${this.scopes}&show_dialog=true`, 'Login with Spotify', 'width=800,height=600')
+      
+      window.spotifyCallback = (payload) => {
+        console.log(payload)
+        
+        popup.close()
+        
+        fetch('https://api.spotify.com/v1/me', {
+          headers: {
+            'Authorization': `Bearer ${payload}`
+          }
+        }).then(response => {
+          return response.json()
+        }).then(data => {
+          this.me = data
+        })
+      }
+    }
+  },
+  mounted() {
+    this.token = window.location.hash.substr(1).split('&')[0].split("=")[1]
+    
+    if (this.token) {
+      // alert(this.token)
+      
+      window.opener.spotifyCallback(this.token)
+    }
+  }
+})
+
+
 
 class nSong {
     constructor(track) {
