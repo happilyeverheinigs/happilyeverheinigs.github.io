@@ -24,7 +24,6 @@
 	
     <link rel="stylesheet" href="css/style.css">
     <script src="js/spotify-web-api.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17-beta.0/vue.js"></script>
 </head>
 
 <body>
@@ -148,7 +147,7 @@ var songs = []
 const spotifyApi = new SpotifyWebApi();
 
 //https://developer.spotify.com/console/get-search-item/
-spotifyApi.setAccessToken('BQBi0LKObDaSDtlitxrAm5XLDb5lWrNxGbz9Y4-gVYSwySgd6JqFqwko7LMkx4aO1YUyIP_9O1JBMJJlzKe-IPZSYl0HWjZmk8JFtLXXeOW-QfJwVAN1eXVG2Cm8Lgc1YhiAqJJQg7Nh7zR1PB0dYtT4pTd0-73doKmPI0d0tu_b1JkscMrVFb_b1O8Y3dvW');
+//spotifyApi.setAccessToken('BQBi0LKObDaSDtlitxrAm5XLDb5lWrNxGbz9Y4-gVYSwySgd6JqFqwko7LMkx4aO1YUyIP_9O1JBMJJlzKe-IPZSYl0HWjZmk8JFtLXXeOW-QfJwVAN1eXVG2Cm8Lgc1YhiAqJJQg7Nh7zR1PB0dYtT4pTd0-73doKmPI0d0tu_b1JkscMrVFb_b1O8Y3dvW');
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -179,48 +178,92 @@ const urlQuery = urlParams.get('query');
 //     });
 // }
 
-const app = new Vue({
-  el: '#app',
-  data() {
-    return {
-      client_id: 'ced3d123d96e4850aae3b17871d73f64',
-      scopes: '',
-      redirect_uri: 'https://happilyeverheinigs.com/search?',
-      me: null
-    }
-  },
-  methods: {
-    login() {
-      let popup = window.open(`https://accounts.spotify.com/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=${this.redirect_uri}&scope=${this.scopes}&show_dialog=true`, 'Login with Spotify', 'width=800,height=600')
+// const app = new Vue({
+//   el: '#app',
+//   data() {
+//     return {
+//       client_id: 'ced3d123d96e4850aae3b17871d73f64',
+//       scopes: '',
+//       redirect_uri: 'https://happilyeverheinigs.com/search?',
+//       me: null
+//     }
+//   },
+//   methods: {
+//     login() {
+//       let popup = window.open(`https://accounts.spotify.com/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=${this.redirect_uri}&scope=${this.scopes}&show_dialog=true`, 'Login with Spotify', 'width=800,height=600')
       
-      window.spotifyCallback = (payload) => {
-        console.log(payload)
+//       window.spotifyCallback = (payload) => {
+//         console.log(payload)
         
-        popup.close()
+//         popup.close()
         
-        fetch('https://api.spotify.com/v1/me', {
-          headers: {
-            'Authorization': `Bearer ${payload}`
-          }
-        }).then(response => {
-          return response.json()
-        }).then(data => {
-          this.me = data
-        })
-      }
-    }
-  },
-  mounted() {
-    this.token = window.location.hash.substr(1).split('&')[0].split("=")[1]
+//         fetch('https://api.spotify.com/v1/me', {
+//           headers: {
+//             'Authorization': `Bearer ${payload}`
+//           }
+//         }).then(response => {
+//           return response.json()
+//         }).then(data => {
+//           this.me = data
+//         })
+//       }
+//     }
+//   },
+//   mounted() {
+//     this.token = window.location.hash.substr(1).split('&')[0].split("=")[1]
     
-    if (this.token) {
-      // alert(this.token)
+//     if (this.token) {
+//       // alert(this.token)
       
-      window.opener.spotifyCallback(this.token)
-    }
-  }
-})
+//       window.opener.spotifyCallback(this.token)
+//     }
+//   }
+// })
 
+var client_id = 'ced3d123d96e4850aae3b17871d73f64';
+var client_secret = '43768512f8c743689f1117de1b032db9';
+
+let token = '';
+
+async function authorize(){
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "Basic Y2VkM2QxMjNkOTZlNDg1MGFhZTNiMTc4NzFkNzNmNjQ6NDM3Njg1MTJmOGM3NDM2ODlmMTExN2RlMWIwMzJkYjk=");
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("grant_type", "client_credentials");
+
+    const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
+    }
+
+    let res = await fetch("https://accounts.spotify.com/api/token", requestOptions);
+    res = await res.json();
+    token = res.access_token;
+    console.log("AUTOHIROANUOI    " + res.access_token)
+    return res.access_token; 
+}
+// request.postData(authOptions, function(error, response, body) {
+//   if (!error && response.statusCode === 200) {
+//     var token = body.access_token;
+//   }
+// });
+
+// this.authorize(function(token) {
+//     spotifyApi.setAccessToken(token);
+//     console.log(token)
+// });
+token = this.authorize()
+spotifyApi.setAccessToken(token);
+console.log(token)
+
+
+//var token = this.authorize().then(setAcc())
+
+//console.log(token)
 
 
 class nSong {
