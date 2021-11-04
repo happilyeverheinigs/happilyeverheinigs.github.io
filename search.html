@@ -24,6 +24,7 @@
 	
     <link rel="stylesheet" href="css/style.css">
     <script src="js/spotify-web-api.js"></script>
+    <script src="js/request.js"></script>
 </head>
 
 <body>
@@ -141,10 +142,11 @@ TODO:
 Check for duplicate songs
 Dont tell the user it was successful if it wasnt
 Get refresh token
-fix mobile spacing
+album year and length
 */
 var songs = []
 const spotifyApi = new SpotifyWebApi();
+
 
 //https://developer.spotify.com/console/get-search-item/
 //spotifyApi.setAccessToken('BQBi0LKObDaSDtlitxrAm5XLDb5lWrNxGbz9Y4-gVYSwySgd6JqFqwko7LMkx4aO1YUyIP_9O1JBMJJlzKe-IPZSYl0HWjZmk8JFtLXXeOW-QfJwVAN1eXVG2Cm8Lgc1YhiAqJJQg7Nh7zR1PB0dYtT4pTd0-73doKmPI0d0tu_b1JkscMrVFb_b1O8Y3dvW');
@@ -152,6 +154,157 @@ const spotifyApi = new SpotifyWebApi();
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const urlQuery = urlParams.get('query');
+
+var client_id = 'ced3d123d96e4850aae3b17871d73f64';
+var client_secret = '43768512f8c743689f1117de1b032db9';
+
+var token = '';
+
+async function authorize(){
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "Basic Y2VkM2QxMjNkOTZlNDg1MGFhZTNiMTc4NzFkNzNmNjQ6NDM3Njg1MTJmOGM3NDM2ODlmMTExN2RlMWIwMzJkYjk=");
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("grant_type", "client_credentials");
+
+    const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
+    }
+
+    var res  = await fetch("https://accounts.spotify.com/api/token", requestOptions);
+    //console.log(res);
+    //token = res.access_token;
+    //console.log("AUTOHIROANUOI    " + res.access_token)
+    res = await res.json();
+    token = res.access_token
+    console.log(res.access_token)
+    return res.access_token; 
+}
+
+// this.authorize(function(token) {
+//     spotifyApi.setAccessToken(token);
+//     console.log(token)
+// });
+function set(tok) {
+    spotifyApi.setAccessToken(tok)
+    console.log("set token : " + tok)
+}
+//this.authorize().then(tok=>set())
+spotifyApi.setAccessToken("BQDWLmT1pUZJjnJwQwOCH6w-JbNjkvw_oEcUo9xpgVJzK2JNkaAhA0PRr5ndgBywT4K-8Qv7O_gW7OQBGIOQ4NQrRYqgUMwGx1poKtAEh5tja0001Op4AKgLI9A-SFKw3UaPhWuGfO2LZU0Yt5K3OOtjYUreXwYMDgxQubULyLXeSheitp8-69OrffdU4tWr");
+//authorize()
+//set(token)
+
+//spotifyApi.setAccessToken(token);
+// console.log(token)
+
+
+//var token = this.authorize().then(setAcc())
+
+//console.log(token)
+
+
+class nSong {
+    constructor(track) {
+        if (track != null) {
+            this.name = track['name'];
+            this.id = track['id'];
+            this.artists = '';
+            for (var i = 0; i < track['artists'].length; i++) {
+                var artist = track['artists'][i];
+                if (i != 0) {
+                    this.artists += ', '
+                }
+                this.artists += artist['name'];
+            }
+            this.art = track['album']['images'][1]['url']
+            this.audio = track['preview_url']
+            this.uri = track['uri']
+            this.album = track['album']['name']
+        } else {
+            this.name = 'ERROR'
+            this.id = 'ERROR'
+            this.artists = 'ERROR'
+        }
+        console.log(`Created ${this.name} - ${this.artists} (${this.id})`)
+    }
+}
+
+function main() {
+    searchSong()
+    setTimeout(() => updateTable(), 500);
+}
+
+function searchSong(){
+    songs = []
+
+    var query = document.getElementsByName("query")[0].value
+    console.log("Search query: " + query)
+    if (query == '') {
+        query = urlQuery
+        console.log("Got URL query: " + query)
+    }
+
+    spotifyApi.search(query, ['track'], {
+        //market: "from_token",
+        limit: 3
+    }, (err, result) => {
+        if (err == null) {
+            for (var i = 0; i < result['tracks']['items'].length; i++) {
+                var track = result['tracks']['items'][i];
+                songs.push(new nSong(track));
+            }
+        } else {
+            //  TODO: HANDLE ERROR
+        }
+    })
+
+}
+
+function updateTable() {
+    document.getElementById("art0").innerHTML = '<img src="'+songs[0].art+'">'
+    document.getElementById("name0").innerHTML = songs[0].name
+    document.getElementById("artist0").innerHTML = songs[0].artists
+    document.getElementById("album0").innerHTML = songs[0].album
+
+    document.getElementById("art1").innerHTML = '<img src="'+songs[1].art+'">'
+    document.getElementById("name1").innerHTML = songs[1].name
+    document.getElementById("artist1").innerHTML = songs[1].artists
+    document.getElementById("album1").innerHTML = songs[1].album
+
+    document.getElementById("art2").innerHTML = '<img src="'+songs[2].art+'">'
+    document.getElementById("name2").innerHTML = songs[2].name
+    document.getElementById("artist2").innerHTML = songs[2].artists
+    document.getElementById("album2").innerHTML = songs[2].album
+}
+
+function selectSong(num){
+    spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O',[songs[num].uri])
+    console.log("Added song: " + songs[num].name)
+    document.getElementById("successMessage").innerHTML = "Your song has been successfully added!"
+    
+
+    setTimeout(() => {
+        document.getElementById("successMessage").innerHTML = "⠀"
+    }, 8000);
+}
+
+if (urlQuery != '' && urlQuery != null) {
+    document.getElementById("searchdiv").innerHTML = "<input type=\"text\" id=\"searchfield\" placeholder=\"Search for a song on spotify...\" name=\"query\" value=\""+urlQuery+"\">"
+    main()
+}
+</script>
+
+<script>
+//GARBO
+// request.postData(authOptions, function(error, response, body) {
+//   if (!error && response.statusCode === 200) {
+//     var token = body.access_token;
+//   }
+// });
 
 // function getAcessToken(refresh_token) {
 //     app.get('/refresh_token', function(req, res) {
@@ -220,146 +373,30 @@ const urlQuery = urlParams.get('query');
 //   }
 // })
 
-var client_id = 'ced3d123d96e4850aae3b17871d73f64';
-var client_secret = '43768512f8c743689f1117de1b032db9';
 
-let token = '';
+// async function authorize(){
+//     let myHeaders = new Headers();
+//     myHeaders.append("Authorization", "Basic Y2VkM2QxMjNkOTZlNDg1MGFhZTNiMTc4NzFkNzNmNjQ6NDM3Njg1MTJmOGM3NDM2ODlmMTExN2RlMWIwMzJkYjk=");
+//     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-async function authorize(){
-    let myHeaders = new Headers();
-    myHeaders.append("Authorization", "Basic Y2VkM2QxMjNkOTZlNDg1MGFhZTNiMTc4NzFkNzNmNjQ6NDM3Njg1MTJmOGM3NDM2ODlmMTExN2RlMWIwMzJkYjk=");
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+//     var urlencoded = new URLSearchParams();
+//     urlencoded.append("grant_type", "client_credentials");
 
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("grant_type", "client_credentials");
+//     const requestOptions = {
+//     method: 'POST',
+//     headers: myHeaders,
+//     body: urlencoded,
+//     redirect: 'follow'
+//     }
 
-    const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: 'follow'
-    }
+//     var res  = await fetch("https://accounts.spotify.com/api/token", requestOptions);
+//     //console.log(res);
+//     //token = res.access_token;
+//     //console.log("AUTOHIROANUOI    " + res.access_token)
+//     res = await res.json();
+//     token = res.access_token
+//     console.log(res.access_token)
+//     return res.access_token; 
+// }
 
-    var res  = await fetch("https://accounts.spotify.com/api/token", requestOptions);
-    //console.log(res.then(tok => console.log(tok)));
-    //token = res.access_token;
-    //console.log("AUTOHIROANUOI    " + res.access_token)
-    res = await res.json();
-    return res.access_token; 
-}
-// request.postData(authOptions, function(error, response, body) {
-//   if (!error && response.statusCode === 200) {
-//     var token = body.access_token;
-//   }
-// });
-
-// this.authorize(function(token) {
-//     spotifyApi.setAccessToken(token);
-//     console.log(token)
-// });
-function set(tok) {
-    spotifyApi.setAccessToken(tok)
-    console.log("set token : " + tok)
-}
-this.authorize().then(tok=>set())
-spotifyApi.setAccessToken("BQDWLmT1pUZJjnJwQwOCH6w-JbNjkvw_oEcUo9xpgVJzK2JNkaAhA0PRr5ndgBywT4K-8Qv7O_gW7OQBGIOQ4NQrRYqgUMwGx1poKtAEh5tja0001Op4AKgLI9A-SFKw3UaPhWuGfO2LZU0Yt5K3OOtjYUreXwYMDgxQubULyLXeSheitp8-69OrffdU4tWr");
-
-//spotifyApi.setAccessToken(token);
-// console.log(token)
-
-
-//var token = this.authorize().then(setAcc())
-
-//console.log(token)
-
-
-class nSong {
-    constructor(track) {
-        if (track != null) {
-            this.name = track['name'];
-            this.id = track['id'];
-            this.artists = '';
-            for (var i = 0; i < track['artists'].length; i++) {
-                var artist = track['artists'][i];
-                if (i != 0) {
-                    this.artists += ', '
-                }
-                this.artists += artist['name'];
-            }
-            this.art = track['album']['images'][1]['url']
-            this.audio = track['preview_url']
-            this.uri = track['uri']
-            this.album = track['album']['name']
-        } else {
-            this.name = 'ERROR'
-            this.id = 'ERROR'
-            this.artists = 'ERROR'
-        }
-        console.log(`Created ${this.name} - ${this.artists} (${this.id})`)
-    }
-}
-
-function main() {
-    searchSong()
-    setTimeout(() => updateTable(), 500);
-}
-
-function searchSong(){
-    songs = []
-
-    var query = document.getElementsByName("query")[0].value
-    console.log("Search query: " + query)
-    if (query == '') {
-        query = urlQuery
-        console.log("Got URL query: " + query)
-    }
-
-    spotifyApi.search(query, ['track'], {
-        market: "from_token",
-        limit: 3
-    }, (err, result) => {
-        if (err == null) {
-            for (var i = 0; i < result['tracks']['items'].length; i++) {
-                var track = result['tracks']['items'][i];
-                songs.push(new nSong(track));
-            }
-        } else {
-            //  TODO: HANDLE ERROR
-        }
-    })
-
-}
-
-function updateTable() {
-    document.getElementById("art0").innerHTML = '<img src="'+songs[0].art+'">'
-    document.getElementById("name0").innerHTML = songs[0].name
-    document.getElementById("artist0").innerHTML = songs[0].artists
-    document.getElementById("album0").innerHTML = songs[0].album
-
-    document.getElementById("art1").innerHTML = '<img src="'+songs[1].art+'">'
-    document.getElementById("name1").innerHTML = songs[1].name
-    document.getElementById("artist1").innerHTML = songs[1].artists
-    document.getElementById("album1").innerHTML = songs[1].album
-
-    document.getElementById("art2").innerHTML = '<img src="'+songs[2].art+'">'
-    document.getElementById("name2").innerHTML = songs[2].name
-    document.getElementById("artist2").innerHTML = songs[2].artists
-    document.getElementById("album2").innerHTML = songs[2].album
-}
-
-function selectSong(num){
-    spotifyApi.addTracksToPlaylist('6CHAy1dBIcg4g0b0uTM23O',[songs[num].uri])
-    console.log("Added song: " + songs[num].name)
-    document.getElementById("successMessage").innerHTML = "Your song has been successfully added!"
-    
-
-    setTimeout(() => {
-        document.getElementById("successMessage").innerHTML = "⠀"
-    }, 8000);
-}
-
-if (urlQuery != '' && urlQuery != null) {
-    document.getElementById("searchdiv").innerHTML = "<input type=\"text\" id=\"searchfield\" placeholder=\"Search for a song on spotify...\" name=\"query\" value=\""+urlQuery+"\">"
-    main()
-}
 </script>
