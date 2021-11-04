@@ -240,10 +240,11 @@ async function authorize(){
     redirect: 'follow'
     }
 
-    let res = await fetch("https://accounts.spotify.com/api/token", requestOptions);
+    var res  = await fetch("https://accounts.spotify.com/api/token", requestOptions);
+    //console.log(res.then(tok => console.log(tok)));
+    //token = res.access_token;
+    //console.log("AUTOHIROANUOI    " + res.access_token)
     res = await res.json();
-    token = res.access_token;
-    console.log("AUTOHIROANUOI    " + res.access_token)
     return res.access_token; 
 }
 // request.postData(authOptions, function(error, response, body) {
@@ -256,9 +257,15 @@ async function authorize(){
 //     spotifyApi.setAccessToken(token);
 //     console.log(token)
 // });
-token = this.authorize()
-spotifyApi.setAccessToken(token);
-console.log(token)
+function set(tok) {
+    spotifyApi.setAccessToken(tok)
+    console.log("set token : " + tok)
+}
+this.authorize().then(tok=>set())
+spotifyApi.setAccessToken("BQDWLmT1pUZJjnJwQwOCH6w-JbNjkvw_oEcUo9xpgVJzK2JNkaAhA0PRr5ndgBywT4K-8Qv7O_gW7OQBGIOQ4NQrRYqgUMwGx1poKtAEh5tja0001Op4AKgLI9A-SFKw3UaPhWuGfO2LZU0Yt5K3OOtjYUreXwYMDgxQubULyLXeSheitp8-69OrffdU4tWr");
+
+//spotifyApi.setAccessToken(token);
+// console.log(token)
 
 
 //var token = this.authorize().then(setAcc())
