@@ -398,5 +398,53 @@ if (urlQuery != '' && urlQuery != null) {
 //     console.log(res.access_token)
 //     return res.access_token; 
 // }
+/*
+var request = new XMLHttpRequest()
+
+
+request.open("POST",authOptions.url)
+request.setRequestHeader('Accept', 'application/json');
+request.setRequestHeader('Content-Type', 'application/json');
+request.setRequestHeader('Authorization', 'Basic ' + (new ArrayBuffer(client_id + ':' + client_secret).toString('base64')));
+    
+request.send()
+
+
+
+const BASE_URL = 'https://accounts.spotify.com/api/token';
+fetch(BASE_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + (client_id + ':' + client_secret).toString('base64')
+            },
+            body: {'grant_type':'client_credentials'},
+            json: true
+}).then(data=>{return data.json()})
+.then(res=>{console.log(res)})
+
+
+var authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    headers: {
+      'Authorization': 'Basic ' + (new ArrayBuffer(client_id + ':' + client_secret).toString('base64'))
+    },
+    form: {
+      grant_type: 'client_credentials'
+    },
+    json: true
+  };
+
+
+
+let myHeaders = new Headers();
+  myHeaders.append("Authorization", ('Basic ' + (client_id + ':' + client_secret).toString('base64')));
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("grant_type", "client_credentials");
+
+  
+*/
 
 </script>
