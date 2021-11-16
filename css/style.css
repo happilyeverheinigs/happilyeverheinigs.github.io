@@ -362,7 +362,7 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #fh5co-counter,
 #fh5co-event {
-  height: 1000px;
+  /*height: 1000px;*/
   float: left;
 }
 #fh5co-counter .display-t,
@@ -444,7 +444,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-counter .event-wrap i,
 #fh5co-event .event-wrap i {
   color: white;
-  font-size: 20px;
+  font-size: 11px;
 }
 #fh5co-counter .event-wrap .event-col,
 #fh5co-event .event-wrap .event-col {
@@ -1934,3 +1934,5 @@ form label {
   text-align: center;
 }
 /*# sourceMappingURL=style.css.map */
+.clear { clear: both; }
+
