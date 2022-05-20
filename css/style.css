@@ -1029,9 +1029,17 @@ form label {
 }
 
 .couple-wrap {
-  width: 90%;
+  width: 70%;
   margin: 0 auto;
   position: relative;
+}
+.couple-wrap b {
+  color: #474747
+}
+
+.couple-wrap h2 {
+  font-size:20px;
+  margin-bottom: 5px
 }
 @media screen and (max-width: 768px) {
   .couple-wrap {
