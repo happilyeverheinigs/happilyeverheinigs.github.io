@@ -1,0 +1,252 @@
+* {
+    --accent: #113091;
+    --accent-low-op: #113191b0;
+    --text: #000;
+    --weak-text: #333;
+
+    --special-text: #fff;
+    --special-weak-text: rgb(210, 210, 210);
+    --background: #fff;
+}
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon/icomoon.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'brotherhood';
+  src: url("../fonts/Brotherhood_Script.ttf");
+}
+@font-face {
+    font-family: 'garamond';
+    src: url("../fonts/EBGaramond-Regular.ttf") format("opentype");
+}
+
+/* Global */
+
+.section {
+    padding-bottom: 4em;
+    padding-top: 4em;
+}
+.right {
+    text-align: right;
+}
+.left {
+    text-align: left;
+}
+h1,h2,h3,p {
+    text-align:center;
+    font-family: 'garamond';
+    color:var(--weak-text)
+}
+/* h1 {
+    color: var(--text);
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    /* margin: 0 0 20px 0; */
+i {
+    font-family: 'icomoon';
+}
+
+h1 {
+    font-family: 'brotherhood';
+    font-size:4em;
+    /* margin-top:2em; */
+    line-height:1.5em;
+    color: var(--accent);
+    -webkit-text-stroke-width: 1px;
+}
+h2 {
+    font-size: 1.5em;
+    line-height: 2em;
+}
+p {
+    line-height: 1.2em;
+}
+
+span {
+    color: var(--special-weak-text);
+    font-weight: 600;
+    font-size: 0.7em;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    /* TODO get this centered?!? */
+}
+
+.flex {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* Header */
+#banner {
+    line-height:10em;
+    background-color:antiquewhite;
+    padding-top:5%;
+    padding-bottom:3%;
+}
+
+.big {
+    margin-top:0em;
+    font-size:5em;
+    color: var(--text)
+}
+
+.bubble {
+    background-color:var(--accent-low-op);
+    /* opacity: 0.5; */
+    width:5em;
+    height:5em;
+    border-radius:5em;
+    /* text-align:center; */
+    margin:auto;
+    line-height:initial;
+    margin-top:2em;
+}
+.bubble h2 {
+    padding-top:0.5em;
+    line-height: 1em;
+    font-size:2em;
+    color:var(--special-text)
+}
+
+.bubble h3 {
+    color:var(--special-weak-text)
+}
+
+/* Intro */
+
+.couple {
+    width:40%;
+}
+
+#intro img {
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+}
+
+#intro .couple.right {
+    padding-left: 10%;
+    padding-right: 1%;
+}
+#intro .couple.left {
+    padding-right: 10%;
+    padding-left: 1%;
+}
+#intro .icon.right {
+    padding-right: 2%;
+}
+#intro .icon.left {
+    padding-left: 2%;
+}
+
+.double {
+    margin-top:1em;
+    margin-top: 3em;
+}
+.double h1 {
+    margin-top: 0;
+    line-height:1.2em;
+    font-size:2.5em;
+}
+
+.heart {
+    position: absolute;
+    margin-top: 4em;
+    /* left: 50;
+    right: 50; */
+    /* z-index: 99; */
+    animation: pulse 1s ease infinite;
+  }
+.heart i {
+
+    background: var(--background);
+    color: var(--accent);
+    font-size: 2em;
+    padding: 0.75em;;
+    /* -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%; */
+    border-radius: 50%;
+    /* content: '&#9829'; */
+}
+/* 
+@keyframes pulse {
+    0% {
+        font-size: 1em;
+        padding: 0.75em;;
+    }
+    
+    50% {
+        font-size: 2em;
+        padding: 0.75em;;
+    }
+    
+    100% {
+        font-size: 1em;
+        padding: 0.75em;;
+    }
+} */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* events */
+
+#events {
+    background: linear-gradient( 
+        rgba(0, 0, 0, 0.3), 
+        rgba(0, 0, 0, 0.3) ), 
+        url("../images/img_bg_3.jpg");
+    background-size: cover;
+    background-blend-mode: normal;
+    /* background-color:#000; */
+}
+
+#events h1 {
+    color: var(--special-text);
+}
+
+.event {
+    width:35%;
+    background-color:rgba(0, 0, 0, 0.5);
+    border-color:rgb(210, 210, 210);
+    border-style: solid;
+    border-width: 2px;
+    border-radius:1.5%;
+    /* padding: 5%; */
+    text-align: center;
+    color: var(--special-text)
+}
+.event p {
+    color: var(--special-weak-text)
+}
+.event h1 {
+    font-family:'geramond';
+    font-size:1.5em;
+    font-weight:100;
+    border-bottom-style: solid;
+    border-color:var(--special-weak-text);
+    border-width: 1px;
+    width:90%;
+    margin:auto;
+    margin-bottom: 0.5em;
+}
