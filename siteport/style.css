@@ -35,7 +35,20 @@
 .left {
     text-align: left;
 }
-h1,h2,h3,p {
+
+.incog-link {
+    color:unset;
+}
+.incog-link:hover {
+    text-decoration: none;
+    /* transition: all 1s linear; */
+}
+.plain-link {
+    color:unset;
+    text-decoration: unset;
+}
+
+h1,h2,h3,h4,p {
     text-align:center;
     font-family: 'garamond';
     color:var(--weak-text)
@@ -81,6 +94,8 @@ span {
     display:flex;
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
+    flex-basis: 30%;
 }
 
 /* Header */
@@ -225,8 +240,13 @@ span {
     color: var(--special-text);
 }
 
+#event-wrap {
+    /* width: 70%; */
+    flex-basis: 10%
+}
+
 .event {
-    width:35%;
+    width:25%;
     background-color:rgba(0, 0, 0, 0.5);
     border-color:rgb(210, 210, 210);
     border-style: solid;
@@ -234,10 +254,15 @@ span {
     border-radius:1.5%;
     /* padding: 5%; */
     text-align: center;
-    color: var(--special-text)
+    color: var(--special-text);
+    padding:2em 0 2em 0;
+    margin: 0 1em 0 1em;
 }
 .event p {
-    color: var(--special-weak-text)
+    color: var(--special-weak-text);
+    width:90%;
+    margin:auto;
+    padding-bottom:1em;
 }
 .event h1 {
     font-family:'geramond';
@@ -249,4 +274,21 @@ span {
     width:90%;
     margin:auto;
     margin-bottom: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 100;
+}
+.event span {
+    font-size:0.5em;
+    font-style:italic;
+    /* margin-top:5em; */
+    /* line-height:em; */
+}
+.event h4 {
+    margin-bottom:1em;
+    color:var(--special-weak-text);
+    line-height: 1.5em;
+}
+.event .info {
+    padding: 1em 1em 0 1em;
 }
