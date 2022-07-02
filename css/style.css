@@ -58,7 +58,7 @@ a {
   transition: 0.5s;
 }
 a:hover, a:active, a:focus {
-  color: #113091;
+  color: #5c74bc;
   outline: none;
   text-decoration: none;
 }
@@ -1944,3 +1944,23 @@ form label {
 /*# sourceMappingURL=style.css.map */
 .clear { clear: both; }
 
+
+.itin {
+  margin-bottom: 0;
+  padding-top: 0.2em;
+  font-size: 2em;
+}
+.itin a{
+  color:rgb(224, 224, 224);
+  text-decoration:underline;
+  /* font-family: 'heinig', 'Brotherhood Script', normal; */
+  font-style:italic;
+  font-weight:bold;
+}
+.itin a:hover{
+  text-decoration:none;
+}
+
+#fh5co-event {
+  padding-bottom: 3em;
+}
