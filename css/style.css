@@ -1964,3 +1964,8 @@ form label {
 #fh5co-event {
   padding-bottom: 3em;
 }
+
+#itin span {
+  /* font-size:0.5em; */
+  text-align:center;
+}
